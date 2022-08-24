@@ -1,22 +1,23 @@
 <template>
   <div id="login">
-    <h1>{{ msg }}</h1>
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="main"></div>
           <div class="form">
-            <h3>创建账户</h3>
-            <div v-show="true" class="register">
-              <input type="text" placeholder="用户名">
-              <input type="password" placeholder="密码">
-              <div class="button">创建账号</div>
+            <h3 @click="showRegister">创建账户</h3>
+            <div v-show="isShowRegister" class="register">
+              <input type="text" v-model="register.username" placeholder="用户名">
+              <input type="password" v-model="register.password" placeholder="密码">
+              <p :class="{error: register.isError}">{{ register.notice }}</p>
+              <div class="button" @click="onRegister">创建账号</div>
             </div>
-            <h3>登录</h3>
-            <div v-show="false" class="login">
-              <input type="text" placeholder="输入用户名">
-              <input type="password" placeholder="密码">
-              <div class="button">登录</div>
+            <h3 @click="showLogin">登录</h3>
+            <div v-show="isShowLogin" class="login">
+              <input type="text" v-model="login.username" placeholder="输入用户名">
+              <input type="password" v-model="login.password" placeholder="密码">
+              <p :class="{error: login.isError}">{{ login.notice }}</p>
+              <div class="button" @click="onLogin">登录</div>
             </div>
           </div>
         </div>
@@ -30,7 +31,84 @@
     name: 'Login',
     data() {
       return {
-        msg: 'This is login page'
+        isShowLogin: true,
+        isShowRegister: false,
+        login: {
+          username: 'Tacitus',
+          password: 'shyrts',
+          notice: '请输入用户名和密码',
+          isError: false
+        },
+        register: {
+          username: '',
+          password: '',
+          notice: '创建账号后请记住用户名和密码',
+          isError: false
+        }
+      }
+    },
+
+    methods:{
+      // 重复点击创建账户是无效的，不能把两个 show 写成一个函数
+      showRegister(){
+        this.isShowRegister = true
+        this.isShowLogin = false
+      },
+      showLogin(){
+        this.isShowRegister = false
+        this.isShowLogin = true
+      },
+      onRegister(){
+        const usernameResult = this.validUserName(this.register.username)
+        if(!usernameResult.isValid){
+          this.register.isError = true
+          this.register.notice = usernameResult.notice
+          return
+        }
+
+        const passwordResult = this.validPassword(this.register.password)
+        if(!passwordResult.isValid){
+          this.register.isError = true
+          this.register.notice = passwordResult.notice
+          return
+        }
+
+        this.register.isError = false
+        this.register.notice = ''
+
+        console.log(`开始注册，用户名是:${this.register.username},密码是:${this.register.password}`)
+      },
+      onLogin(){
+        const usernameResult = this.validUserName(this.login.username)
+        if(!usernameResult.isValid){
+          this.login.isError = true
+          this.login.notice = usernameResult.notice
+          return
+        }
+
+        const passwordResult = this.validPassword(this.login.password)
+        if(!passwordResult.isValid){
+          this.login.isError = true
+          this.login.notice = passwordResult.notice
+          return
+        }
+
+        this.login.isError = false
+        this.login.notice = ''
+
+        console.log(`开始登陆，用户名是:${this.login.username},密码是:${this.login.password}`)
+      },
+      validUserName(username){
+        return {
+          isValid: /^[\w\u4e00-\u9fa5]{3,15}$/.test(username),
+          notice: '用户名必须是3~15个字符，限于字母数字下划线中文'
+        }
+      },
+      validPassword(password){
+        return {
+          isValid: /^(\w){6,16}$/.test(password),
+          notice: '密码必须是6~16个字符，限于字母数字下划线'
+        }
       }
     }
   }
