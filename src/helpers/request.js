@@ -2,6 +2,7 @@ import axios from 'axios'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.baseURL = 'http://node-server.hunger-valley.com'
+axios.defaults.withCredentials = true
 
 /*
 request('/auth/login', 'POST', {username: 'Tacitus', password: '123456'})
@@ -9,7 +10,6 @@ request('/auth/login', 'POST', {username: 'Tacitus', password: '123456'})
     console.log(data)
   })
 */
-
 
 export default function request(url, type = 'GET', data = {}) {
   return new Promise((resolve, reject) => {
