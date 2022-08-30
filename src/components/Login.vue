@@ -61,17 +61,18 @@
         this.isShowRegister = true
         this.isShowLogin = false
       },
+
       showLogin() {
         this.isShowRegister = false
         this.isShowLogin = true
       },
+
       onRegister() {
         if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)){
           this.register.isError = true
           this.register.notice = '用户名必须是3~15个字符，限于字母数字下划线中文'
           return
         }
-
         if (!/^(\w){6,16}$/.test(this.register.password)) {
           this.register.isError = true
           this.register.notice = '密码必须是6~16个字符，限于字母数字下划线'
@@ -84,16 +85,20 @@
         }).then(data=>{
           this.register.isError = false
           this.register.notice = ''
-          console.log(data)
+          console.log('start redirect...')
+          this.$router.push({ path: '/notebooks'})
+        }).catch(data=>{
+          this.register.isError = true
+          this.register.notice = data.msg
         })
       },
+
       onLogin() {
         if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)){
           this.login.isError = true
           this.login.notice = '用户名必须是3~15个字符，限于字母数字下划线中文'
           return
         }
-
         if (!/^(\w){6,16}$/.test(this.login.password)) {
           this.login.isError = true
           this.login.notice = '密码必须是6~16个字符，限于字母数字下划线'
@@ -107,6 +112,7 @@
           this.login.isError = false
           this.login.notice = ''
           console.log('start redirect...')
+          this.$router.push({ path: '/notebooks'})
         }).catch(data=>{
           this.login.isError = true
           this.login.notice = data.msg
