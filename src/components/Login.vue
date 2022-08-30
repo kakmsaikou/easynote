@@ -29,10 +29,10 @@
 <script>
   import Auth from "@/apis/auth"
 
-  Auth.getInfo()
-    .then(data=>{
-      console.log(data)
-    })
+  // Auth.getInfo()
+  //   .then(data=>{
+  //     console.log(data)
+  //   })
 
   export default {
     name: 'Login',
@@ -66,70 +66,48 @@
         this.isShowLogin = true
       },
       onRegister() {
-        const usernameResult = this.validUserName(this.register.username)
-        if (!usernameResult.isValid) {
+        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)){
           this.register.isError = true
-          this.register.notice = usernameResult.notice
+          this.register.notice = '用户名必须是3~15个字符，限于字母数字下划线中文'
           return
         }
 
-        const passwordResult = this.validPassword(this.register.password)
-        if (!passwordResult.isValid) {
+        if (!/^(\w){6,16}$/.test(this.register.password)) {
           this.register.isError = true
-          this.register.notice = passwordResult.notice
+          this.register.notice = '密码必须是6~16个字符，限于字母数字下划线'
           return
         }
-
-        this.register.isError = false
-        this.register.notice = ''
-
-        console.log(`开始注册，用户名是:${this.register.username},密码是:${this.register.password}`)
 
         Auth.register({
           username: this.register.username,
           password: this.register.password
         }).then(data=>{
+          this.register.isError = false
+          this.register.notice = ''
           console.log(data)
         })
       },
       onLogin() {
-        const usernameResult = this.validUserName(this.login.username)
-        if (!usernameResult.isValid) {
+        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)){
           this.login.isError = true
-          this.login.notice = usernameResult.notice
+          this.login.notice = '用户名必须是3~15个字符，限于字母数字下划线中文'
           return
         }
 
-        const passwordResult = this.validPassword(this.login.password)
-        if (!passwordResult.isValid) {
+        if (!/^(\w){6,16}$/.test(this.login.password)) {
           this.login.isError = true
-          this.login.notice = passwordResult.notice
+          this.login.notice = '密码必须是6~16个字符，限于字母数字下划线'
           return
         }
-
-        this.login.isError = false
-        this.login.notice = ''
-
-        console.log(`开始登陆，用户名是:${this.login.username},密码是:${this.login.password}`)
 
         Auth.login({
           username: this.login.username,
           password: this.login.password
         }).then(data=>{
+          this.login.isError = false
+          this.login.notice = ''
           console.log(data)
         })
-      },
-      validUserName(username) {
-        return {
-          isValid: /^[\w\u4e00-\u9fa5]{3,15}$/.test(username),
-          notice: '用户名必须是3~15个字符，限于字母数字下划线中文'
-        }
-      },
-      validPassword(password) {
-        return {
-          isValid: /^(\w){6,16}$/.test(password),
-          notice: '密码必须是6~16个字符，限于字母数字下划线'
-        }
       }
     }
   }
