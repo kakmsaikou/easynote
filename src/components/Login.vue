@@ -106,7 +106,10 @@
         }).then(data=>{
           this.login.isError = false
           this.login.notice = ''
-          console.log(data)
+          console.log('start redirect...')
+        }).catch(data=>{
+          this.login.isError = true
+          this.login.notice = data.msg
         })
       }
     }
