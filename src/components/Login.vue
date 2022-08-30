@@ -28,6 +28,7 @@
 
 <script>
   import Auth from "@/apis/auth"
+  import Bus from '@/helpers/bus'
 
   // Auth.getInfo()
   //   .then(data=>{
@@ -85,7 +86,7 @@
         }).then(data=>{
           this.register.isError = false
           this.register.notice = ''
-          console.log('start redirect...')
+          Bus.$emit('userInfo', {username: this.register.username})
           this.$router.push({ path: '/notebooks'})
         }).catch(data=>{
           this.register.isError = true
@@ -111,7 +112,7 @@
         }).then(data=>{
           this.login.isError = false
           this.login.notice = ''
-          console.log('start redirect...')
+          Bus.$emit('userInfo', { username: this.login.username })
           this.$router.push({ path: '/notebooks'})
         }).catch(data=>{
           this.login.isError = true
