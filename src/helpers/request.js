@@ -1,15 +1,9 @@
 import axios from 'axios'
+import baseURLConfig from './config-baseURL'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-axios.defaults.baseURL = 'http://node-server.hunger-valley.com'
+axios.defaults.baseURL = baseURLConfig.baseURL
 axios.defaults.withCredentials = true
-
-/*
-request('/auth/login', 'POST', {username: 'Tacitus', password: '123456'})
-  .then(data => {
-    console.log(data)
-  })
-*/
 
 export default function request(url, type = 'GET', data = {}) {
   return new Promise((resolve, reject) => {
@@ -32,8 +26,16 @@ export default function request(url, type = 'GET', data = {}) {
         console.error(res.data)
         reject(res.data)
       }
-    }).catch(error => {
+    }).catch(err => {
+      console.error({msg: '网络异常'})
       reject({msg: '网络异常'})
     })
   })
 }
+
+/*
+request('/auth/login', 'POST', {username: 'Tacitus', password: '123456'})
+  .then(data => {
+    console.log(data)
+  })
+*/

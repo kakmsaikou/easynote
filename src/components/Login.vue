@@ -27,7 +27,12 @@
 </template>
 
 <script>
-  import request from "@/helpers/request"
+  import Auth from "@/apis/auth"
+
+  Auth.getInfo()
+    .then(data=>{
+      console.log(data)
+    })
 
   export default {
     name: 'Login',
@@ -80,10 +85,12 @@
 
         console.log(`开始注册，用户名是:${this.register.username},密码是:${this.register.password}`)
 
-        request('/auth/login', 'POST', {username: this.register.username, password: this.register.password})
-          .then(data => {
-            console.log(data)
-          })
+        Auth.register({
+          username: this.register.username,
+          password: this.register.password
+        }).then(data=>{
+          console.log(data)
+        })
       },
       onLogin() {
         const usernameResult = this.validUserName(this.login.username)
@@ -105,10 +112,12 @@
 
         console.log(`开始登陆，用户名是:${this.login.username},密码是:${this.login.password}`)
 
-        request('/auth/login', 'POST', {username: this.login.username, password: this.login.password})
-          .then(data => {
-            console.log(data)
-          })
+        Auth.login({
+          username: this.login.username,
+          password: this.login.password
+        }).then(data=>{
+          console.log(data)
+        })
       },
       validUserName(username) {
         return {

@@ -13,16 +13,26 @@
       </router-link>
     </div>
     <div class="logout">
-      <i class="iconfont icon-logout"></i>
+      <i class="iconfont icon-logout" @click="logout"></i>
     </div>
   </div>
 </template>
 
 <script>
   import Avatar from '@/components/Avatar'
+  import Auth from '@/apis/auth'
 
   export default {
-    components: {Avatar}
+    components: {Avatar},
+    methods:{
+      logout(){
+        console.log('logout')
+        Auth.logout()
+          .then(data=>{
+            console.log(data)
+          })
+      }
+    }
   }
 </script>
 
