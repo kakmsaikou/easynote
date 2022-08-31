@@ -1,26 +1,21 @@
 <template>
   <div class="detail" id="notebook-list">
     <header>
-      <a href="#" class="btn"><i class="iconfont icon-plus"/>新建笔记本</a>
+      <a href="#" class="btn" @click="onCreate"><i class="iconfont icon-plus"/>新建笔记本</a>
     </header>
     <main>
       <div class="layout">
-        <h3>笔记本列表(10)</h3>
+        <h3>笔记本列表({{notebooks.length}}})</h3>
         <div class="book-list">
-          <a href="#" class="notebook">
+          <router-link v-for="notebook in notebooks" to="/note/1" class="notebook">
             <div>
-              <span class="iconfont icon-notebook"></span> 笔记本标题1 <span>3</span><span class="action">编辑</span>
-              <span class="action">删除</span>
+              <span class="iconfont icon-notebook"></span> {{notebook.title}}
+              <span>{{notebook.noteCounts}}</span>
+              <span class="action" @click="onEdit">编辑</span>
+              <span class="action" @click="onDelete">删除</span>
               <span class="data">3天前</span>
             </div>
-          </a>
-          <a href="#" class="notebook">
-            <div>
-              <span class="iconfont icon-notebook"></span> 笔记本标题1 <span>3</span><span class="action">编辑</span>
-              <span class="action">删除</span>
-              <span class="data">5天前</span>
-            </div>
-          </a>
+          </router-link>
         </div>
       </div>
     </main>
@@ -29,11 +24,12 @@
 
 <script>
   import Auth from '@/apis/auth'
+  import Notebooks from '@/apis/notebooks'
 
   export default {
     data() {
       return {
-        msg: '笔记本列表'
+        notebooks: [],
       }
     },
 
@@ -44,6 +40,24 @@
             this.$router.push('/login')
           }
         })
+      Notebooks.getAll()
+        .then(res=>{
+          this.notebooks = res.data
+        })
+    },
+
+    methods:{
+      onCreate(){
+        console.log(1)
+      },
+
+      onEdit(){
+        console.log(2)
+      },
+
+      onDelete(){
+        console.log(3)
+      },
     }
   }
 </script>
