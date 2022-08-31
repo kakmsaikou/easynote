@@ -12,8 +12,8 @@ export default {
     return request(URL.GET)
   },
 
-  updateNotebook(notebookeId, {title = ''} = {title: ''}) {
-    return request(URL.UPDATE.replace(':id', notebookeId), 'PATCH', {title})
+  updateNotebook(notebookId, {title = ''} = {title: ''}) {
+    return request(URL.UPDATE.replace(':id', notebookId), 'PATCH', {title})
   },
 
   deleteNotebook(notebookId) {
