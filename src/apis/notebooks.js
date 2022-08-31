@@ -17,7 +17,7 @@ export default {
   },
 
   deleteNotebook(notebookId) {
-    return request(URL.DELETE.replace('id', notebookId), 'DELETE')
+    return request(URL.DELETE.replace(':id', notebookId), 'DELETE')
   },
 
   addNotebook({title = ''} = {title: ''}) {
