@@ -1,7 +1,7 @@
 <template>
   <div class="detail" id="notebook-list">
     <header>
-      <a href="#" class="btn" @click="onCreate"><i class="iconfont icon-plus"/>新建笔记本</a>
+      <a href="#" class="btn" @click.prevent="onCreate"><i class="iconfont icon-plus"/>新建笔记本</a>
     </header>
     <main>
       <div class="layout">
@@ -11,8 +11,8 @@
             <div>
               <span class="iconfont icon-notebook"></span> {{notebook.title}}
               <span>{{notebook.noteCounts}}</span>
-              <span class="action" @click="onEdit">编辑</span>
-              <span class="action" @click="onDelete">删除</span>
+              <span class="action" @click.stop.prevent="onEdit">编辑</span>
+              <span class="action" @click.stop.prevent="onDelete">删除</span>
               <span class="data">3天前</span>
             </div>
           </router-link>
