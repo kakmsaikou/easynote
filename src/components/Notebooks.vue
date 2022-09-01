@@ -13,7 +13,7 @@
               <span>{{ notebook.noteCounts }}</span>
               <span class="action" @click.stop.prevent="onEdit(notebook)">编辑</span>
               <span class="action" @click.stop.prevent="onDelete(notebook)">删除</span>
-              <span class="data">3天前</span>
+              <span class="date">{{notebook.createdAt}}</span>
             </div>
           </router-link>
         </div>
