@@ -1,9 +1,9 @@
 <template>
   <div class="note-sidebar">
-    <span class="btn add-note" @click="addNote">添加笔记</span>
+    <span class="btn add-note">添加笔记</span>
     <el-dropdown class="notebook-title" @command="handleCommand" placement="bottom">
       <span class="el-dropdown-link">
-        我的笔记本1 <i class="iconfont icon-down"></i>
+        {{ curBook.title }} <i class="iconfont icon-down"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item v-for="notebook in notebooks" :command="notebook.id">{{ notebook.title }}</el-dropdown-item>
@@ -16,7 +16,7 @@
     </div>
     <ul class="notes">
       <li v-for="note in notes">
-        <router-link :to="`/note?noteId=${note.id}`">
+        <router-link :to="`/note?noteId=${note.id}&notebookId=${curBook.id}`">
           <span class="date">{{ note.updatedAtFriendly }}</span>
           <span class="title">{{ note.title }}</span>
         </router-link>
@@ -26,27 +26,39 @@
 </template>
 
 <script>
+  import Notebooks from '../apis/notebooks'
+  import Notes from '@/apis/notes'
+
   export default {
     data() {
       return {
-        notebooks: [
-          {
-            id: 1,
-            title: 'hello1',
-            updatedAtFriendly: '刚刚'
-          },
-          {
-            id: 2,
-            title: 'hello2',
-            updatedAtFriendly: '10分钟前'
-          }
-        ]
+        notebooks: [],
+        notes: [],
+        curBook: {}
       }
     },
+
     methods: {
-      handleCommand(cmd) {
-        console.log(cmd)
+      handleCommand(notebookId) {
+        if (notebookId === 'trash') {
+          return this.$router.push({path:'/trash'})
+        }
+        this.curBook = this.notebooks.find(notebook => notebook.id === notebookId)
+        Notes.getAll({notebookId})
+          .then(res => {
+            this.notes = res.data
+          })
       }
+    },
+
+    created() {
+      Notebooks.getAll().then(res => {
+        this.notebooks = res.data
+        this.curBook = this.notebooks.find(notebook => notebook.id === this.$route.query.notebookId) || this.notebooks[0] || {}
+        return Notes.getAll({notebookId: this.curBook.id})
+      }).then(res=>{
+        this.notes = res.data
+      })
     }
   }
 </script>

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Notebooks from '@/components/Notebooks.vue'
-import Note from '@/components/Note.vue'
+import Note from '@/components/NoteDetail.vue'
 import Trash from '@/components/Trash.vue'
 
 
