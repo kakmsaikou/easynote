@@ -63,11 +63,6 @@
             type: 'success',
             message: res.msg
           })
-        }).catch((res) => {
-          this.$message({
-            type: 'error',
-            message: res.msg
-          })
         })
       },
 
@@ -77,21 +72,14 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /^.{1,30}$/,
-          inputErrorMessage: '标题不能为空，且不能超过30个字符'
+          inputErrorMessage: '标题不能为空，且不能超过30个字符',
+          inputValue: notebook.title
         }).then(({value}) => {
           title = value
           return Notebooks.updateNotebook(notebook.id, {title})
         }).then(res => {
           notebook.title = title
-          this.$message({
-            type: 'success',
-            message: res.msg
-          })
-        }).catch((res) => {
-          this.$message({
-            type: 'error',
-            message: res.msg
-          })
+          this.$message.success(res.msg)
         })
       },
 
@@ -104,17 +92,7 @@
           return Notebooks.deleteNotebook(notebook.id)
         }).then(res => {
           this.notebooks.splice(this.notebooks.indexOf(notebook), 1)
-          this.$message({
-            type: 'success',
-            message: res.msg
-          })
-        }).catch(res => {
-          if(res.msg){
-            this.$message({
-              type: 'error',
-              message: res.msg
-            })
-          }
+          this.$message.success(res.msg)
         })
       },
     }
