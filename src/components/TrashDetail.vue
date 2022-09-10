@@ -38,6 +38,7 @@
 <script>
   import Auth from '@/apis/auth'
   import MarkdownIt from 'markdown-it'
+  import Trash from '@/apis/trash'
 
   const md = new MarkdownIt()
 
@@ -93,13 +94,6 @@
         return md.render(this.curTrashNote.content||'')
       }
     },
-
-    // computed: {
-    //   compiledMarkDown () {
-    //     return md.render(this.curTrashNote.content||'')
-    //   }
-    // },
-
     methods: {
       onDelete() {
         console.log('delete')
