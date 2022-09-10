@@ -89,10 +89,16 @@
     },
 
     computed: {
-      compileMarkDown() {
-        return md.render(this.curTrashNote.content || '')
+      compiledMarkdown () {
+        return md.render(this.curTrashNote.content||'')
       }
     },
+
+    // computed: {
+    //   compiledMarkDown () {
+    //     return md.render(this.curTrashNote.content||'')
+    //   }
+    // },
 
     methods: {
       onDelete() {
