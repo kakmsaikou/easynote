@@ -14,11 +14,14 @@ export default {
       request(URL.GET)
         .then(res => {
           res.data = res.data.sort((notebook1, notebook2) => notebook1.createAt < notebook2.createAt ? 1 : -1)
-          res.data.forEach(notebook=>{
-              notebook.friendlyCreatedAt = friendlyDate(notebook.createdAt)
-            })
+          res.data.forEach(notebook => {
+            notebook.createdAtFriendly = friendlyDate(notebook.createdAt)
+            notebook.updatedAtFriendly = friendlyDate(notebook.updatedAt)
+          })
           resolve(res)
-        }).catch(err => reject(err))
+        }).catch(err => {
+        reject(err)
+      })
     })
   },
 
@@ -31,6 +34,16 @@ export default {
   },
 
   addNotebook({title = ''} = {title: ''}) {
-    return request(URL.ADD, 'POST', {title})
+    return new Promise((resolve, reject) => {
+      request(URL.ADD, 'POST', {title})
+        .then(res => {
+          res.data.createdAtFriendly = friendlyDate(res.data.createdAt)
+          res.data.updatedAtFriendly = friendlyDate(res.data.updatedAt)
+          resolve(res)
+        }).catch(err=>{
+        reject(err)
+      })
+    })
+    return
   }
 }

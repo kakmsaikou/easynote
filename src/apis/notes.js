@@ -21,7 +21,9 @@ export default {
             return note1.updatedAt < note2.updatedAt
           })
           resolve(res)
-        }).catch(err => reject(err))
+        }).catch(err => {
+        reject(err)
+      })
     })
   },
 
@@ -34,6 +36,15 @@ export default {
   },
 
   addNote({notebookId}, {title = '', content = ''} = {title: '', content: ''}) {
-    return request(URL.ADD.replace(':notebookId',notebookId), 'POST', {title, content})
+    return new Promise((resolve,reject)=>{
+      request(URL.ADD.replace(':notebookId', notebookId), 'POST', { title, content })
+        .then(res=>{
+          res.data.createdAtFriendly = friendlyDate(res.data.createdAt)
+          res.data.updatedAtFriendly = friendlyDate(res.data.updatedAt)
+          resolve(res)
+        }).catch(err=>{
+        reject(err)
+      })
+    })
   }
 }
