@@ -73,6 +73,7 @@
       ]),
 
       onUpdateNote: _.debounce(function () {
+        if (!this.curNote.id) return
         this.updateNote({noteId: this.curNote.id, title: this.curNote.title, content: this.curNote.content})
           .then(data => {
             this.statusText = '已保存'
@@ -86,12 +87,12 @@
           .then(data => {
             this.$router.replace({path: '/note'})
           })
-      },
-
-      beforeRouteUpdate(to, from, next) {
-        this.setCurNote({curNoteId: to.query.noteId})
-        next()
       }
+    },
+
+    beforeRouteUpdate(to, from, next) {
+      this.setCurNote({curNoteId: to.query.noteId})
+      next()
     }
   }
 </script>
